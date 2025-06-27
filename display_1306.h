@@ -60,6 +60,7 @@ class display_1306 {
       if(CONFIG_OLED_1306 == 1 || SSD1306_SWITCHCAPVCC){
         str = display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
       }
+      display.setRotation(CONFIG_DISPLAY_ROTATION);
       pinMode(CONFIG_BATT_PIN,INPUT_PULLDOWN);
       if(!str) {
         return false;

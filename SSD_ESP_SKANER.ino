@@ -26,6 +26,7 @@ void setup() {
   digitalWrite(CONFIG_CD4066_PIN_B,LOW);
   analogWrite(CONFIG_BUZZER_PIN, 0);
   EEPROM.begin(512);
+  Wire.begin(CONFIG_SDA_PIN, CONFIG_SCL_PIN);
 
   key.key_up = EEPROM.read(CONFIG_KEY_ADDR_CLIBR_UP)*16;
   key.key_down = EEPROM.read(CONFIG_KEY_ADDR_CLIBR_DOWN)*16;

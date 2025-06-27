@@ -45,6 +45,7 @@ or pass `-D BOARD_TTGO` via the Arduino IDE's build options.
 ## Building with PlatformIO
 
 This repository includes a `platformio.ini` file configured for the TTGO board.
+The source code resides in the `src` directory and headers in `include` for standard PlatformIO layout.
 Install [PlatformIO](https://platformio.org/) and run:
 
 ```bash

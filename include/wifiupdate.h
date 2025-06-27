@@ -12,7 +12,7 @@ DNSServer dnsServer;
 
 class wifiupdate {
   public:  
-    explicit wifiupdate(int s){
+    wifiupdate(int s){
 //      apMode();
 //      webServerInit();
     }

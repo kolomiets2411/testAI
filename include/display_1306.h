@@ -48,8 +48,9 @@ class display_1306 {
     int RSSI_12 = 0;
     int mhz_58 = 0;
     int mhz_12 = 0;
-    explicit display_1306(int delays) : _delays(delays), _timing(0), _timing3(0) {
-
+    display_1306(int delays){
+      _delays = delays;
+      
     }
     bool begin(){
       bool str = false;

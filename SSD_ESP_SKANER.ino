@@ -24,7 +24,10 @@ void setup() {
   pinMode(CONFIG_CD4066_PIN_B,OUTPUT);
   digitalWrite(CONFIG_CD4066_PIN_A,LOW);
   digitalWrite(CONFIG_CD4066_PIN_B,LOW);
-  analogWrite(CONFIG_BUZZER_PIN, 0);
+  // configure buzzer PWM on ESP32
+  ledcSetup(0, 2000, 8);          // channel 0, 2 kHz, 8-bit resolution
+  ledcAttachPin(CONFIG_BUZZER_PIN, 0);
+  ledcWrite(0, 0);                // start silent
   EEPROM.begin(512);
 
   key.key_up = EEPROM.read(CONFIG_KEY_ADDR_CLIBR_UP)*16;
@@ -89,16 +92,16 @@ void loop() {
       D1306.isVideo = tuner._isVideo;
       D1306.isVideo58 = vrx5808._isVideo58;
       if(D1306.buzz == 1){
-        analogWrite(CONFIG_BUZZER_PIN, 255); 
+        ledcWrite(0, 255);
       }else{
-        analogWrite(CONFIG_BUZZER_PIN, 0);
+        ledcWrite(0, 0);
       }
     }
    }else{
     timer2 = millis();
     D1306.isVideo = tuner._isVideo;
     D1306.isVideo58 = vrx5808._isVideo58;
-    analogWrite(CONFIG_BUZZER_PIN, 0);
+    ledcWrite(0, 0);
    }
    if(vrx5808._isVideo58 == 1 && tuner._isVideo == 1){
     

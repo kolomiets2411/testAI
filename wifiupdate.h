@@ -26,7 +26,7 @@ class wifiupdate {
           WiFi.mode(WIFI_AP);
           WiFi.softAP(CONFIG_WIFI_SSID, CONFIG_WIFI_PASSWORD);  
           MDNS.begin("SSD_FPV_SCANER"); 
-          dnsServer.start();
+          dnsServer.start(53, "*", WiFi.softAPIP());
           inits = 1;
           webServerInit();
       }

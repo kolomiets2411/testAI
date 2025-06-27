@@ -15,10 +15,10 @@ class TA8804 {
       1530,1555,1580,1605,1630,1655,1680,1705,
       1730,1755,1780
     };
-    TA8804(int pin, int rssi){
-      _pin = pin; 
-      _rssi = rssi;
-      
+    explicit TA8804(int pin, int rssi)
+        : _index_chanel(0), _Delitel(0), _DelitelH(0), _DelitelL(0),
+          times2(0), _pin(pin), _rssi(rssi), _status(0), _addr(0x61) {
+
     }
     bool begin(int rssi_min){
         _rssi_min = rssi_min;

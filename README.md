@@ -42,6 +42,23 @@ build_flags = -D BOARD_TTGO
 
 or pass `-D BOARD_TTGO` via the Arduino IDE's build options.
 
+## Building with PlatformIO
+
+This repository includes a `platformio.ini` file configured for the TTGO board.
+Install [PlatformIO](https://platformio.org/) and run:
+
+```bash
+pio run -t upload
+```
+
+to compile and flash the firmware.
+
+## Display Rotation
+
+The display orientation can be adjusted using `CONFIG_DISPLAY_ROTATION` in
+`config.h`. Valid values range from **0** to **3**, matching the constants used
+by the Adafruit library.
+
 ## Calibrating Buttons and RSSI
 
 ### Button Calibration
@@ -61,4 +78,7 @@ http://<device ip>/update
 ```
 
 Upload a compiled binary via this page to update the firmware over the air.
+The OTA implementation follows the `OTA Web Updater` example from the
+[Arduino-ESP32](https://github.com/espressif/arduino-esp32) project, which is a
+common approach used by many TTGO-based projects on GitHub.
 

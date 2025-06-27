@@ -45,12 +45,11 @@ class VRX58 {
             6054,6060,6080,6106,6132,6158,6184
             };
     uint16_t _rssi_array[136] = {0};
-    VRX58(int PIN_MOSI,int PIN_CLK, int PIN_CS, int PIN_RSSI, int PIN_VIDEO){
-      _PIN_MOSI = PIN_MOSI;
-      _PIN_CLK = PIN_CLK;
-      _PIN_CS = PIN_CS;
-      _PIN_RSSI = PIN_RSSI;
-      _pin = PIN_VIDEO;
+    explicit VRX58(int PIN_MOSI,int PIN_CLK, int PIN_CS, int PIN_RSSI, int PIN_VIDEO)
+        : _SPIModeEnabled(false), times2(0), _PIN_MOSI(PIN_MOSI), _PIN_CLK(PIN_CLK),
+          _PIN_CS(PIN_CS), max_calc(0), min_calc(0), _pin(PIN_VIDEO),
+          _rssi_min(0), _PIN_RSSI(PIN_RSSI) {
+      _index_chanel = 0;
     }
     bool begin(int rssi_min){
       pinMode(_PIN_MOSI, INPUT);

@@ -36,7 +36,13 @@ The Wi‑Fi SSID and password default to `SSD_FPV_DETECTOR` / `12345678`【F:con
 
 ## Selecting the Board
 
-The project expects a board header such as `board_ttgo.h` to set the pin mapping macros. Compile with `-D BOARD_TTGO` (or adjust the include) to use the TTGO definition. Other boards can be supported by providing similar header files with their own mappings.
+The project expects a board header such as `board_ttgo.h` to set the pin mapping macros. Compile with `-D BOARD_TTGO` (or adjust the include) to use the TTGO definition. For example with `arduino-cli`:
+
+```bash
+arduino-cli compile -b esp32:esp32:esp32 -D BOARD_TTGO
+```
+
+Other boards can be supported by providing similar header files with their own mappings.
 
 ## Wi‑Fi OTA Update
 

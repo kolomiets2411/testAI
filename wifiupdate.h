@@ -30,6 +30,8 @@ class wifiupdate {
           inits = 1;
           webServerInit();
       }
+      dnsServer.processNextRequest();
+      MDNS.update();
       server.handleClient();
     }else{
       inits = 0; 

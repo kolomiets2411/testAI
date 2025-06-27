@@ -1,0 +1,12 @@
+# PlatformIO build directories
+.pio/
+.pioenvs/
+.vscode/
+
+# Arduino build artifacts
+*.elf
+*.bin
+*.hex
+
+# OS files
+.DS_Store

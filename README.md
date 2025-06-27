@@ -1,63 +1,64 @@
 # SSD ESP Skaner
 
-This project contains a firmware sketch for ESP32 based FPV signal scanner. It supports TTGO style boards with an OLED display and allows Wi‑Fi OTA firmware updates.
+This repository contains an ESP32 based firmware for scanning FPV video signals. It was developed for TTGO style ESP32 boards equipped with an OLED display. The code can be built either in the Arduino IDE or with PlatformIO.
 
-## Required Libraries
+## Required Arduino/PlatformIO Libraries
 
-The sketch depends on several Arduino libraries. Make sure the following packages are installed:
+Install the following libraries using the Arduino Library Manager or PlatformIO:
 
-- **ESP32 core** for Arduino providing `<WiFi.h>`, `<WebServer.h>`, `<ESPmDNS.h>`, `<DNSServer.h>`, `<Update.h>` and `<Ticker.h>` used in the OTA implementation【F:wifiupdate.h†L1-L10】.
-- **Adafruit GFX** and **Adafruit SSD1306** or **Adafruit SH110X** for the OLED display driver as referenced in `display_1306.h`【F:display_1306.h†L1-L9】.
-- `<Wire.h>` and `<EEPROM.h>` which are part of the ESP32 Arduino core.
+- **ESP32 Arduino core** (provides `WiFi.h`, `WebServer.h`, `ESPmDNS.h`, `DNSServer.h`, `Update.h` and `Ticker.h`)
+- **Adafruit GFX** and **Adafruit SSD1306** (or **Adafruit SH110X** if using a SH1106 based display)
+- `Wire` and `EEPROM` which are part of the ESP32 core
 
-Install these libraries through the Arduino Library Manager or from the ESP32 board package.
+## Default Pin Mapping
 
-## TTGO Wiring
+The default pin layout for a TTGO board is defined in `config.h` and reproduced below:
 
-Pin mappings for the TTGO board are defined in `board_ttgo.h` (mirrored below from `config.h` for reference):
-
-| Function | Pin |
-| -------- | --- |
-| Tuner video | `35` |
-| Tuner RSSI | `34` |
-| RX5808 video | `36` |
-| RX5808 RSSI | `39` |
-| RX5808 MOSI | `4` |
-| RX5808 CLK | `19` |
-| RX5808 CS | `18` |
-| CD4066 A | `33` |
-| CD4066 B | `32` |
-| Buzzer | `25` |
-| Battery monitor | `27` |
+| Function       | Pin |
+| -------------- | --- |
+| Tuner video    | `35` |
+| Tuner RSSI     | `34` |
+| RX5808 video   | `36` |
+| RX5808 RSSI    | `39` |
+| RX5808 MOSI    | `4`  |
+| RX5808 CLK     | `19` |
+| RX5808 CS      | `18` |
+| CD4066 A       | `33` |
+| CD4066 B       | `32` |
+| Buzzer         | `25` |
+| Battery monitor| `27` |
 | Charger detect | `26` |
-| Key input | `14` |
+| Key input      | `14` |
 
-The Wi‑Fi SSID and password default to `SSD_FPV_DETECTOR` / `12345678`【F:config.h†L44-L45】.
+The firmware starts a Wi‑Fi access point using the default credentials `SSD_FPV_DETECTOR` and `12345678`.
 
-## Selecting the Board
+## Selecting the TTGO Configuration
 
-The project expects a board header such as `board_ttgo.h` to set the pin mapping macros. Compile with `-D BOARD_TTGO` (or adjust the include) to use the TTGO definition. Other boards can be supported by providing similar header files with their own mappings.
+Compile the project with the `BOARD_TTGO` macro defined to use the above pin assignments. In PlatformIO this can be done with:
 
-## Wi‑Fi OTA Update
-
-OTA updates are handled when Wi‑Fi mode is enabled. The device starts a soft AP and web server:
-
-```cpp
-WiFi.mode(WIFI_AP);
-WiFi.softAP(CONFIG_WIFI_SSID, CONFIG_WIFI_PASSWORD);
+```ini
+build_flags = -D BOARD_TTGO
 ```
-【F:wifiupdate.h†L24-L31】
 
-Once started the console prints the URL of the update page【F:wifiupdate.h†L100-L105】. Connect to the device Wi‑Fi network and open `http://<device ip>/update` to upload a new firmware binary.
+or pass `-D BOARD_TTGO` via the Arduino IDE's build options.
 
-## Calibration
+## Calibrating Buttons and RSSI
 
-### Button calibration
+### Button Calibration
 
-Holding the key input high for more than five seconds enters button calibration. The firmware then asks to press each button in turn and stores the ADC values to EEPROM【F:SSD_ESP_SKANER.ino†L256-L307】.
+Hold the key input for more than five seconds to enter the button calibration routine. Follow the on‑screen instructions to press each button. The measured ADC values are saved to EEPROM so they persist after reboot.
 
-### RSSI thresholds
+### RSSI Calibration
 
-When on the main screen press and hold the **up** button for five seconds to start RSSI calibration. Minimum RSSI levels for both receivers are measured and written to EEPROM【F:SSD_ESP_SKANER.ino†L226-L255】. These thresholds are saved at addresses `CONFIG_RSSI_ADDR_CLIBR_12` and `CONFIG_RSSI_ADDR_CLIBR_58`【F:config.h†L68-L69】.
+From the main screen hold the **up** button for around five seconds. The tuner measures the noise floor on both receivers and stores the minimum RSSI thresholds to EEPROM.
 
----
+## OTA Update Page
+
+When Wi‑Fi mode is enabled, the device starts a simple web server. After connecting to the `SSD_FPV_DETECTOR` network open:
+
+```
+http://<device ip>/update
+```
+
+Upload a compiled binary via this page to update the firmware over the air.
+

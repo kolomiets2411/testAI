@@ -14,9 +14,8 @@ class key {
     int _input = 0;
     
     
-    key(int key1){
-      pinMode(key1,INPUT);
-      _key1 = key1;
+    explicit key(int key1) : _key1(key1), _timing(0) {
+      pinMode(_key1, INPUT);
     }
     int getKey_f(){
       int r = 0;
